@@ -9,7 +9,7 @@ class Votetop(commands.Cog):
 
     @commands.command()
     async def votetop(self, ctx):
-        embed = discord.Embed(title="Top vote", description="Liste des meilleurs voteurs !", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Top vote", description="Liste des meilleurs voteurs !", color=discord.Color.from_rgb(197,197,197))
         with open (f"./votetop.json", "r") as f:
             data = json.load(f)
             register = data["register"]
@@ -42,7 +42,7 @@ class Votetop(commands.Cog):
     @commands.command()
     async def vote(self, ctx):
         print(f"{ctx.author}")
-        embed = discord.Embed(title="Vote Search", description="Votre nombre de vote.", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Vote Search", description="Votre nombre de vote.", color=discord.Color.from_rgb(197,197,197))
         with open (f"./votetop.json", "r") as f:
             data = json.load(f)
             register = data["register"]
@@ -82,7 +82,7 @@ class Votetop(commands.Cog):
                 
     @commands.command(aliases=["bt"])
     async def bumptop(self, ctx):
-        embed = discord.Embed(title="Top bump", description="Liste des meilleurs bumpeurs !", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Top bump", description="Liste des meilleurs bumpeurs !", color=discord.Color.from_rgb(197,197,197))
         with open (f"./bumptop.json", "r") as f:
             data = json.load(f)
             register = data["register"]
@@ -113,7 +113,7 @@ class Votetop(commands.Cog):
     @commands.command()
     async def bump(self, ctx):
         print(f"{ctx.author}")
-        embed = discord.Embed(title="bump Search", description="Votre nombre de bump.", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="bump Search", description="Votre nombre de bump.", color=discord.Color.from_rgb(197,197,197))
         with open (f"./bumptop.json", "r") as f:
             data = json.load(f)
             register = data["register"]

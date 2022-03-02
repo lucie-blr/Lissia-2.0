@@ -26,7 +26,7 @@ class Admin(commands.Cog):
         with open(f"./{ctx.guild.id}/data.json","w") as data:
             json.dump(text,data)
         
-        embed = discord.Embed(title="Log", description=f"Le channel de log a été changé pour <#{chan}>", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Log", description=f"Le channel de log a été changé pour <#{chan}>", color=discord.Color.from_rgb(197,197,197))
         embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
         await ctx.send(embed=embed)
         serv = self.bot.get_channel(int(chan))

@@ -21,7 +21,7 @@ class Verif(commands.Cog):
                 data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
-                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                 await ctx.reply(embed=embed)
             else:
                 return
@@ -41,7 +41,7 @@ class Verif(commands.Cog):
                     data[f"{chan}"] = {"chanid":f"{chan.id}", "verif":"1"}
                     with open (f"./{chan.guild.id}/data.json", "w") as t:
                         json.dump(data, t)  
-                    embed = discord.Embed(title="Ticket", description="Hello !\n\nJe viens t'aider afin de vérifier que tu as bien respecté quelques points dans ta fiche avant que les staffiens viennent corriger ta fiche. Lis bien jusqu'au bout, et n'oublie pas d'envoyer ta fiche en Gdoc <:Owiiii:920291924626264125>", color=discord.Color.from_rgb(17, 100, 20))
+                    embed = discord.Embed(title="Ticket", description="Hello !\n\nJe viens t'aider afin de vérifier que tu as bien respecté quelques points dans ta fiche avant que les staffiens viennent corriger ta fiche. Lis bien jusqu'au bout, et n'oublie pas d'envoyer ta fiche en Gdoc <:Owiiii:920291924626264125>", color=discord.Color.from_rgb(197,197,197))
                     embed.add_field(name="Mise en page", value="✓ Toutes les catégories doivent être présentent et dans le bon ordre\n✓ Les titres doivent être visible (soulignés, en gras, comme vous voulez du moment qu'ils sont apparents !)", inline=False)
                     embed.add_field(name="Identité", value="✓ Le prénom ne doit pas déjà être pris par quelqu'un\n✓ L'âge minimum est de 14 ans sur le RP\n✓ Vérifie que le rôle que tu souhaites est disponible dans <#842659580944711692> / <#748139611867578368>", inline=False)
                     embed.add_field(name="Personnalité", value="✓ Développe bien le caractère\n✓ Détester n'est pas avoir peur, la phobie doit en être une !", inline=False)
@@ -70,21 +70,21 @@ class Verif(commands.Cog):
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
-                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                     await ctx.reply(embed=embed)
                 elif step == '3':
                     step = '2'
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
-                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                     await ctx.reply(embed=embed)
                 elif step == 'close':
                     step = '3'
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
-                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                    embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                     await ctx.reply(embed=embed)
                 return
             if step == '2':
@@ -92,21 +92,21 @@ class Verif(commands.Cog):
                 data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
-                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                 await ctx.reply(embed=embed)
                 return
             if step == '3':
                 data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"close"}
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
-                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
+                embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(197,197,197))
                 await ctx.reply(embed=embed)
                 return          
                 
     @commands.command()
     @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
     async def veriflist(self, ctx):
-        embed = discord.Embed(title="Ticket list", description="Liste des tickets à vérifier !", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Ticket list", description="Liste des tickets à vérifier !", color=discord.Color.from_rgb(197,197,197))
         with open (f"./{ctx.guild.id}/data.json", "r") as f:
             data = json.load(f)
             ticketlist = data["ticketlist"]

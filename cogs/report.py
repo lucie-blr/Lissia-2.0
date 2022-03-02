@@ -32,7 +32,7 @@ class Report(commands.Cog):
             data = json.load(f)
             register = data["register"]
         
-        embed = discord.Embed(title="Report list", description="Liste de tous les reports", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Report list", description="Liste de tous les reports", color=discord.Color.from_rgb(197,197,197))
         classement = 1
 
         for userl in register:

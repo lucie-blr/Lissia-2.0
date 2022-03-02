@@ -38,7 +38,7 @@ class Justeprix(commands.Cog):
             launched = data["launched"]
         
         if launched == "no":
-            embed = discord.Embed(title="Juste prix", description="Le juste prix n'a pas commencé !", color=discord.Color.from_rgb(17, 100, 20))
+            embed = discord.Embed(title="Juste prix", description="Le juste prix n'a pas commencé !", color=discord.Color.from_rgb(197,197,197))
             await ctx.send(embed=embed)
         
         elif launched == "yes":        
@@ -81,7 +81,7 @@ class Justeprix(commands.Cog):
     @justeprix.error
     async def justeprix_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
-            embed = discord.Embed(title="Juste prix", description="Vous devez attendre la fin du cooldown.", color=discord.Color.from_rgb(17, 100, 20))
+            embed = discord.Embed(title="Juste prix", description="Vous devez attendre la fin du cooldown.", color=discord.Color.from_rgb(197,197,197))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
     
@@ -98,7 +98,7 @@ class Justeprix(commands.Cog):
     @defjp.error
     async def defjp_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            embed = discord.Embed(title="Juste prix", description="Vous n'avez pas la permission.", color=discord.Color.from_rgb(17, 100, 20))
+            embed = discord.Embed(title="Juste prix", description="Vous n'avez pas la permission.", color=discord.Color.from_rgb(197,197,197))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
     

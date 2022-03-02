@@ -20,7 +20,7 @@ class Mute(commands.Cog):
             data = json.load(f)
             log = data["log"]
         serv = self.bot.get_channel(int(log))
-        embed = discord.Embed(title="Timeout", color=discord.Color.from_rgb(17, 100, 20))
+        embed = discord.Embed(title="Timeout", color=discord.Color.from_rgb(197,197,197))
         embed.add_field(name="Modérateur", value=f"{author.mention}", inline=True)
         embed.add_field(name="Membre", value=f"{member}", inline=True)
         embed.add_field(name="Time", value=f"{time}", inline=True)

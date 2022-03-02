@@ -31,10 +31,10 @@ class Catalogue(commands.Cog):
                 graph = replace(data["graph"])
                 
             
-            embed = discord.Embed(title="Catalogue", description=f"La fiche de {reason} arrive dans un instant !", color=discord.Color.from_rgb(17, 100, 20))
+            embed = discord.Embed(title="Catalogue", description=f"La fiche de {reason} arrive dans un instant !", color=discord.Color.from_rgb(197,197,197))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
-            embed2 = discord.Embed(title=nom, color=discord.Color.from_rgb(17, 100, 20))
+            embed2 = discord.Embed(title=nom, color=discord.Color.from_rgb(197,197,197))
             embed2.set_thumbnail(url=graph)
             embed2.add_field(name="Âge", value=age, inline=True)
             embed2.add_field(name="Surnom", value=surnom, inline=True)
@@ -47,7 +47,7 @@ class Catalogue(commands.Cog):
             await ctx.channel.purge(limit=1)
             await ctx.send(embed=embed2)
         else:
-            embed = discord.Embed(title="Catalogue", description="Le personnage n'est pas dans le catalogue.", color=discord.Color.from_rgb(17, 100, 20))
+            embed = discord.Embed(title="Catalogue", description="Le personnage n'est pas dans le catalogue.", color=discord.Color.from_rgb(197,197,197))
             embed.add_field(name="Liste des personnages dans le catalogue :", value=catalogue, inline=True)                
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
