@@ -34,9 +34,8 @@ class Verif(commands.Cog):
         if str(ctx.channel) in ticketlist:
             await ctx.reply('Vous devez utiliser cette commande dans un ticket qui n\'est pas déjà en vérification.')
         else:
-            ticket = ['ticket']
             chan = ctx.channel
-            if str(chan)[0:6] in ticket:    
+            if "ticket" in str(chan):    
                 if not str(chan) in ticketlist:
                     data.get("ticketlist", {}).append(str(chan))
                     data[f"{chan}"] = {"chanid":f"{chan.id}", "verif":"1"}
@@ -102,9 +101,7 @@ class Verif(commands.Cog):
                     json.dump(data, t)
                 embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(17, 100, 20))
                 await ctx.reply(embed=embed)
-                return
-            
-                
+                return          
                 
     @commands.command()
     @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
@@ -114,9 +111,6 @@ class Verif(commands.Cog):
             data = json.load(f)
             ticketlist = data["ticketlist"]
             
-        
-        
-    
         for ticket in ticketlist:
             ticketname = ticket
             ticket = data[f"{ticket}"]
@@ -126,7 +120,6 @@ class Verif(commands.Cog):
                 verif = ticket.get("verif")
                 embed.add_field(name=f"{ticketname}", value=f"<#{ticketdir}> Etape de vérification : **{verif}**", inline=False)
                 
-        
         embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")    
         await ctx.send(embed=embed)
                 
