@@ -9,6 +9,11 @@ class Mute(commands.Cog):
 
     @commands.command()
     async def timeout(self, ctx, member : discord.Member, hours : int, *, reason = None):
+        
+        if member == None:
+            await ctx.reply("Vous devez mentionner un utilisateur à bannir.")
+            return
+        
         time = datetime.timedelta(hours=hours)
         
         await member.timeout_for(time)

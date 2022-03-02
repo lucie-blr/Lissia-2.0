@@ -22,7 +22,6 @@ class Admin(commands.Cog):
             "log":f"{chan}"
         }
         
-        guild = ctx.guild
         with open(f"./{ctx.guild.id}/data.json","w") as data:
             json.dump(text,data)
         
@@ -61,7 +60,7 @@ class Admin(commands.Cog):
 
 
 
-        
+    
     
 
 def setup(bot):

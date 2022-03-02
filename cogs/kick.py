@@ -12,6 +12,9 @@ class Kick(commands.Cog):
     @commands.has_permissions(manage_roles=True, ban_members=True)
     @commands.bot_has_permissions(manage_roles=True, ban_members=True)
     async def _kick(self, ctx, member : discord.Member, *, reason=None):
+        if member == None:
+            await ctx.reply("Vous devez mentionner un utilisateur à bannir.")
+            return
         await member.kick(reason=reason)
         embed = discord.Embed(title="Kick", description=f"**{member}** a été kick pour **{reason}**", color=discord.Color.from_rgb(197,197,197))
         embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
