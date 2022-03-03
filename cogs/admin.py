@@ -58,10 +58,5 @@ class Admin(commands.Cog):
     async def serverid(self, ctx):
         await ctx.send(f"{ctx.guild.id}")
 
-
-
-    
-    
-
 def setup(bot):
     bot.add_cog(Admin(bot))
