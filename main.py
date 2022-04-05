@@ -7,6 +7,7 @@ with open ("data.json", "r") as f:
     data = json.load(f)
     token = data["Token"]
     prefix = data["Prefix"]
+    servlist = data["servlist"]
 
 client = commands.Bot(command_prefix=prefix)
 
@@ -33,11 +34,11 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-@client.command()
+@client.slash_command(guild_ids = servlist, name = "load", description = "command to load others command")   
 @commands.has_permissions(ban_members=True)
-async def load(ctx, extension):
-    client.load_extension(f'cogs.{extension}')
-    await ctx.send(f'{extension} command loaded.')
+async def load(ctx, command):
+    client.load_extension(f'cogs.{command}')
+    await ctx.respond(f'{command} command loaded.', ephemeral=True)
     print(f'{ctx.author} used load')
 
 @load.error
@@ -47,13 +48,13 @@ async def load_error(ctx, error):
                 color = data2["color"]
     if isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(title="Load", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed, ephemeral=True)
         
-@client.command()
+@client.slash_command(guild_ids = servlist, name = "unload", description = "command to unload others command")   
 @commands.has_permissions(ban_members=True)
-async def unload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-    await ctx.send(f'{extension} command unloaded.')
+async def unload(ctx, command):
+    client.unload_extension(f'cogs.{command}')
+    await ctx.respond(f'{command} command unloaded.', ephemeral=True)
     print(f'{ctx.author} used unload')
 
 @unload.error
@@ -63,9 +64,10 @@ async def unload_error(ctx, error):
                 color = data2["color"]
     if isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(title="Unload", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed, ephemeral=True)
 
-@client.command()
+
+@client.slash_command(guild_ids = servlist, name = "reload", description = "command to reload others command")   
 @commands.has_permissions(ban_members=True)
 async def reload(ctx, extension):
     with open (f"data.json", "r") as t:
@@ -75,20 +77,18 @@ async def reload(ctx, extension):
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 client.unload_extension(f'cogs.{filename[:-3]}')
-                await ctx.send(f'{filename[:-3]} unloaded')
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 client.load_extension(f'cogs.{filename[:-3]}')
-                await ctx.send(f'{filename[:-3]} reloaded')
         print(f"{ctx.author} used reload all")
-        await ctx.send("Toutes les commandes ont été reload.")
+        await ctx.respond("Toutes les commandes ont été reload.", ephemeral=True)
         
     else:
         print(f'{ctx.author} used reload')
         client.unload_extension(f'cogs.{    extension}')
-        await ctx.send(f'{extension} command unloaded.')
+        await ctx.respond(f'{extension} command unloaded.', ephemeral=True)
         client.load_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} command reloaded.')
+        await ctx.respond(f'{extension} command reloaded.', ephemeral=True)
         print(f'{ctx.author} used reload')
 
 #message automatique TICKET
@@ -132,19 +132,6 @@ async def on_guild_channel_delete(chan):
 
 #commands
 
-@client.slash_command(guild_ids=[887675595419451396])
-async def test(ctx):
-    await ctx.send("Hello")
-
-@client.command()
-async def setprefix(ctx, prefix):
-    with open (f"./data.json", "r") as f:
-        data = json.load(f)
-    data["Prefix"] = f"{prefix}"
-    with open (f"./data.json", "w") as t:
-        json.dump(data, t)
-    await ctx.send(f'Prefix définie sur {prefix} au prochain redémarrage')
-
 class NewHelpName(commands.MinimalHelpCommand):
     async def send_pages(self):
         with open (f"data.json", "r") as t:
@@ -166,5 +153,24 @@ class NewHelpName(commands.MinimalHelpCommand):
         await destination.send(embed=embed)
 
 client.help_command = NewHelpName()
+
+@client.slash_command(guild_ids = servlist, name = "help", description = "help command")   
+async def help(ctx):
+    with open (f"data.json", "r") as t:
+            data2 = json.load(t)
+            color = data2["color"]
+    prefix = "/"
+    embed = discord.Embed(title="Help", description="Toutes les commandes du client discord", color=discord.Color.from_rgb(color[0], color[1], color[2]))
+    embed.add_field(name=f"{prefix}help", value="Affiche ce message.", inline=True)
+    embed.add_field(name=f"{prefix}ban @membre", value="Banni un utilisateur du serveur.", inline=True)
+    embed.add_field(name=f"{prefix}unban membre#0000", value="Débanni un utilisateur du serveur.", inline=True)
+    embed.add_field(name=f"{prefix}kick @membre", value="Exclu un membre du serveur.", inline=True)
+    embed.add_field(name=f"{prefix}mute @membre", value="Empèche un membre de parler.", inline=True)
+    embed.add_field(name=f"{prefix}timeout @membre t", value="timeout un membre (t = temps en heure).", inline=True)
+    embed.add_field(name=f"{prefix}clear nb", value="Supprime un certain nombre de message (nb = nombres de message à clear, 10 de base).", inline=True)
+    embed.add_field(name=f"{prefix}courgette @membre", value="Courgette quelqu'un.", inline=True)
+    embed.add_field(name=f"{prefix}catalogue personnage", value="Obtenir la fiche d'un personnage important.", inline=True)
+    await ctx.respond(embed=embed, ephemeral=True)
+
 
 client.run(token)

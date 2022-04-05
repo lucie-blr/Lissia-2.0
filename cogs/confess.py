@@ -8,15 +8,20 @@ class Confess(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    guildid = [887675595419451396]
+    with open (f"data.json", "r") as t:
+        data2 = json.load(t)
+        servlist = data2["servlist"]
 
-    @commands.slash_command(guild_ids = guildid, name = "confess", description = "confession")
-    async def confess(self, ctx, *, reason):
+    @commands.slash_command(guild_ids = servlist, name = "confess", description = "confession")
+    async def confess(self, ctx, *, confession):
         date = datetime.now()
         day = date.day
         month = date.month
         hour = date.hour
         minute = date.minute
+        
+        if confession == None:
+            ctx.respond("Vous devez donner une confession", ephemeral=True)
        
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
@@ -43,7 +48,7 @@ class Confess(commands.Cog):
             minute = "0" + minute
             
        
-        embed = discord.Embed(title="Confession", description=f"{reason}", color=discord.Color.from_rgb(color[0], color[1], color[2]))
+        embed = discord.Embed(title="Confession", description=f"{confession}", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         embed.set_footer(text=f"confessé le {day}/{month}/{date.year} à {hour}:{minute}", icon_url="https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
        
        
@@ -56,7 +61,7 @@ class Confess(commands.Cog):
             "guildid":f"{ctx.guild.id}",
             "authorid":f"{ctx.author.id}",
             "date":f"{date}",
-            "message":f"{reason}"
+            "message":f"{confession}"
             
         }
         
@@ -68,8 +73,10 @@ class Confess(commands.Cog):
         await ctx.respond("Confession envoyé !", ephemeral=True)
         
     
-    @commands.command()
-    async def foundconfess(self, ctx, id):
+    @commands.slash_command(guild_ids = servlist, name = "foundconfess", description = "Command to found detail of a confession")
+    @commands.has_permissions(manage_messages=True)
+    async def foundconfess(self, ctx, message_id):
+        id = message_id
         with open (f"data.json", "r") as t:
             data2 = json.load(t)
             color = data2["color"]
@@ -98,10 +105,10 @@ class Confess(commands.Cog):
             embed.add_field(name="Lien du message", value=f"[lien du message](https://discord.com/channels/{gid}/{cid}/{mid})", inline=False)
             
             
-            await ctx.send(embed=embed)
+            await ctx.respond(embed=embed)
             
         except TypeError:
-            await ctx.send("prout")
+            await ctx.respond("prout")
        
 
 def setup(bot):

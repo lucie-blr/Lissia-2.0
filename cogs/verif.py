@@ -6,7 +6,11 @@ class Verif(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    with open (f"data.json", "r") as t:
+        data2 = json.load(t)
+        servlist = data2["servlist"]
+
+    @commands.slash_command(guild_ids = servlist, name = "good", description = "command to pass first step of ticket verification")
     async def good(self, ctx):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
@@ -15,7 +19,7 @@ class Verif(commands.Cog):
             data = json.load(f)
             ticketlist = data["ticketlist"]
         if not str(ctx.channel) in ticketlist:
-            await ctx.reply('Vous devez utiliser cette commande dans un ticket.')
+            await ctx.respond('Vous devez utiliser cette commande dans un ticket.', ephemeral=True)
         elif str(ctx.channel) in ticketlist:
             ticket = data[f"{ctx.channel}"]
             step = ticket.get("verif")
@@ -25,11 +29,12 @@ class Verif(commands.Cog):
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
                 embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                await ctx.reply(embed=embed)
+                await ctx.respond(embed=embed)
             else:
                 return
     
-    @commands.command()
+    @commands.slash_command(guild_ids = servlist, name = "addverif", description = "command to add a ticket in the verification system")
+    
     async def addverif(self, ctx):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
@@ -38,7 +43,7 @@ class Verif(commands.Cog):
             data = json.load(f)
             ticketlist = data["ticketlist"]
         if str(ctx.channel) in ticketlist:
-            await ctx.reply('Vous devez utiliser cette commande dans un ticket qui n\'est pas déjà en vérification.')
+            await ctx.respond('Vous devez utiliser cette commande dans un ticket qui n\'est pas déjà en vérification.', ephemeral=True)
         else:
             chan = ctx.channel
             if "ticket" in str(chan):    
@@ -57,9 +62,9 @@ class Verif(commands.Cog):
                     embed.add_field(name="Ensuite ?", value="*Après avoir vérifié tout ça, tu pourras faire juste en-dessous **&good** ! Nous viendrons corriger un peu après. Merci d\'avance~* <:LoveForYou:774967995205287976>", inline=False)
                     await ctx.send(embed=embed)
     
-    @commands.command()
+    @commands.slash_command(guild_ids = servlist, name = "verif", description = "command to pass step of verification")
     @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
-    async def verif(self, ctx, reason = None):
+    async def verif(self, ctx, back = "yes"):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
                 color = data2["color"]
@@ -68,34 +73,34 @@ class Verif(commands.Cog):
             data = json.load(f)
             ticketlist = data["ticketlist"]
         if not str(ctx.channel) in ticketlist:
-            await ctx.reply('Vous devez utiliser cette commande dans un ticket.')
+            await ctx.respond('Vous devez utiliser cette commande dans un ticket.', ephemeral=True)
         elif str(ctx.channel) in ticketlist:
             ticket = data[f"{ctx.channel}"]
             step = ticket.get("verif")
-            if reason == 'back':
+            if back == 'yes':
                 if step == '1':
-                    await ctx.reply('Vous ne pouvez pas revenir plus en arrière.')
+                    await ctx.respond('Vous ne pouvez pas revenir plus en arrière.', ephemeral=True)
                 elif step == '2':
                     step = '1'
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
                     embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                    await ctx.reply(embed=embed)
+                    await ctx.respond(embed=embed)
                 elif step == '3':
                     step = '2'
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
                     embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                    await ctx.reply(embed=embed)
+                    await ctx.respond(embed=embed)
                 elif step == 'close':
                     step = '3'
                     data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"{step}"}
                     with open (f"./{ctx.guild.id}/data.json", "w") as t:
                         json.dump(data, t)
                     embed = discord.Embed(title="Ticket", description="Retour en arrière passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                    await ctx.reply(embed=embed)
+                    await ctx.respond(embed=embed)
                 return
             if step == '2':
                 step = '3'
@@ -103,17 +108,17 @@ class Verif(commands.Cog):
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
                 embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                await ctx.reply(embed=embed)
+                await ctx.respond(embed=embed)
                 return
             if step == '3':
                 data[f'{ctx.channel}'] = {"chanid":f"{ctx.channel.id}","verif":f"close"}
                 with open (f"./{ctx.guild.id}/data.json", "w") as t:
                     json.dump(data, t)
                 embed = discord.Embed(title="Ticket", description="Vérification passée avec succès !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
-                await ctx.reply(embed=embed)
+                await ctx.respond(embed=embed)
                 return          
                 
-    @commands.command()
+    @commands.slash_command(guild_ids = servlist, name = "veriflist", description = "command to check verification step of tickets")
     @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
     async def veriflist(self, ctx):
         with open (f"data.json", "r") as t:
@@ -134,7 +139,7 @@ class Verif(commands.Cog):
                 embed.add_field(name=f"{ticketname}", value=f"<#{ticketdir}> Etape de vérification : **{verif}**", inline=False)
                 
         embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")    
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
                 
 def setup(bot):
     bot.add_cog(Verif(bot))

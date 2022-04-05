@@ -13,15 +13,20 @@ class Catalogue(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["catal"])
-    async def catalogue(self, ctx, *, reason=None):
+    with open (f"data.json", "r") as t:
+        data2 = json.load(t)
+        servlist = data2["servlist"]
+
+
+    @commands.slash_command(guild_ids = servlist, name = "catalogue", description = "command search in the catalogue")
+    async def catalogue(self, ctx, *, personnage=None):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
                 color = data2["color"]
-        print(reason)
+        print(personnage)
         catalogue = ["Adar","Calypso","Diana","Jack","Kuyo","Midnight","Sacha","Samuel"]
-        if reason in catalogue:
-            with open (f"./catalogue/{reason}.json", "r") as f:
+        if personnage in catalogue:
+            with open (f"./catalogue/{personnage}.json", "r") as f:
                 data = json.load(f)
                 nom = replace(data["nom"])
                 age = replace(data["age"])
@@ -34,9 +39,9 @@ class Catalogue(commands.Cog):
                 graph = replace(data["graph"])
                 
             
-            embed = discord.Embed(title="Catalogue", description=f"La fiche de {reason} arrive dans un instant !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
+            embed = discord.Embed(title="Catalogue", description=f"La fiche de {personnage} arrive dans un instant !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
-            await ctx.send(embed=embed)
+            await ctx.respond(embed=embed, ephemeral=True)
             embed2 = discord.Embed(title=nom, color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed2.set_thumbnail(url=graph)
             embed2.add_field(name="Âge", value=age, inline=True)
@@ -47,13 +52,12 @@ class Catalogue(commands.Cog):
             embed2.add_field(name="Lien", value=fiche, inline=False)
             embed2.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             embed2.set_image(url=image)
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=embed2)
+            await ctx.respond(embed=embed2, ephemeral=True)
         else:
             embed = discord.Embed(title="Catalogue", description="Le personnage n'est pas dans le catalogue.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.add_field(name="Liste des personnages dans le catalogue :", value=catalogue, inline=True)                
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
-            await ctx.send(embed=embed)
+            await ctx.respond(embed=embed, ephemeral=True)
             
         print(f'{ctx.author} used catalogue')
         
