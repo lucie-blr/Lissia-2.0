@@ -11,6 +11,9 @@ class Say(commands.Cog):
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def say(self, ctx, *, reason):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         if reason == None:
             await ctx.send("Vous devez entrer quelque chose.")
         else:
@@ -22,7 +25,7 @@ class Say(commands.Cog):
                 data = json.load(f)
                 log = data["log"]
             serv = self.bot.get_channel(int(log))
-            embed = discord.Embed(title="Say", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Say", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.add_field(name="Modérateur", value=f"{user.mention}", inline=True)
             embed.add_field(name="Message", value=f"{reason}", inline=True)
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")

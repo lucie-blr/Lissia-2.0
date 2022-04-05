@@ -15,6 +15,9 @@ class Catalogue(commands.Cog):
 
     @commands.command(aliases=["catal"])
     async def catalogue(self, ctx, *, reason=None):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         print(reason)
         catalogue = ["Adar","Calypso","Diana","Jack","Kuyo","Midnight","Sacha","Samuel"]
         if reason in catalogue:
@@ -31,10 +34,10 @@ class Catalogue(commands.Cog):
                 graph = replace(data["graph"])
                 
             
-            embed = discord.Embed(title="Catalogue", description=f"La fiche de {reason} arrive dans un instant !", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Catalogue", description=f"La fiche de {reason} arrive dans un instant !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
-            embed2 = discord.Embed(title=nom, color=discord.Color.from_rgb(197,197,197))
+            embed2 = discord.Embed(title=nom, color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed2.set_thumbnail(url=graph)
             embed2.add_field(name="Âge", value=age, inline=True)
             embed2.add_field(name="Surnom", value=surnom, inline=True)
@@ -47,7 +50,7 @@ class Catalogue(commands.Cog):
             await ctx.channel.purge(limit=1)
             await ctx.send(embed=embed2)
         else:
-            embed = discord.Embed(title="Catalogue", description="Le personnage n'est pas dans le catalogue.", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Catalogue", description="Le personnage n'est pas dans le catalogue.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.add_field(name="Liste des personnages dans le catalogue :", value=catalogue, inline=True)                
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)

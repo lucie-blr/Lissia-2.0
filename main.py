@@ -36,8 +36,11 @@ async def load(ctx, extension):
 
 @load.error
 async def load_error(ctx, error):
+    with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
     if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(title="Load", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(197,197,197))
+        embed = discord.Embed(title="Load", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         await ctx.send(embed=embed)
         
 @client.command()
@@ -49,13 +52,19 @@ async def unload(ctx, extension):
 
 @unload.error
 async def unload_error(ctx, error):
+    with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
     if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(title="Unload", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(197,197,197))
+        embed = discord.Embed(title="Unload", description="Vous n'avez pas la permission d'éxecuter cette commande.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         await ctx.send(embed=embed)
 
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def reload(ctx, extension):
+    with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
     if extension == "all":
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
@@ -83,12 +92,15 @@ async def on_guild_channel_create(chan):
         data = json.load(f)
         ticketlist = data["ticketlist"]
     if not str(chan) in ticketlist:
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         if "ticket" in str(chan):
             data.get("ticketlist", {}).append(str(chan))
             data[f"{chan}"] = {"chanid":f"{chan.id}", "verif":"1"}
             with open (f"./{chan.guild.id}/data.json", "w") as t:
                 json.dump(data, t)  
-            embed = discord.Embed(title="Ticket", description="Hello !\n\nJe viens t'aider afin de vérifier que tu as bien respecté quelques points dans ta fiche avant que les staffiens viennent corriger ta fiche. Lis bien jusqu'au bout, et n'oublie pas d'envoyer ta fiche en Gdoc <:Owiiii:920291924626264125>", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Ticket", description="Hello !\n\nJe viens t'aider afin de vérifier que tu as bien respecté quelques points dans ta fiche avant que les staffiens viennent corriger ta fiche. Lis bien jusqu'au bout, et n'oublie pas d'envoyer ta fiche en Gdoc <:Owiiii:920291924626264125>", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.add_field(name="Mise en page", value="✓ Toutes les catégories doivent être présentent et dans le bon ordre\n✓ Les titres doivent être visible (soulignés, en gras, comme vous voulez du moment qu'ils sont apparents !)", inline=False)
             embed.add_field(name="Identité", value="✓ Le prénom ne doit pas déjà être pris par quelqu'un\n✓ L'âge minimum est de 14 ans sur le RP\n✓ Vérifie que le rôle que tu souhaites est disponible dans <#842659580944711692> / <#748139611867578368>", inline=False)
             embed.add_field(name="Personnalité", value="✓ Développe bien le caractère\n✓ Détester n'est pas avoir peur, la phobie doit en être une !", inline=False)
@@ -114,6 +126,10 @@ async def on_guild_channel_delete(chan):
 
 #commands
 
+@client.slash_command(guild_ids=[887675595419451396])
+async def test(ctx):
+    await ctx.send("Hello")
+
 @client.command()
 async def setprefix(ctx, prefix):
     with open (f"./data.json", "r") as f:
@@ -125,10 +141,24 @@ async def setprefix(ctx, prefix):
 
 class NewHelpName(commands.MinimalHelpCommand):
     async def send_pages(self):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         destination = self.get_destination()
-        embed = discord.Embed(title="Help", description="Toutes les commandes du client discord", color=0x992d22)
+        embed = discord.Embed(title="Help", description="Toutes les commandes du client discord", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         embed.add_field(name=f"{prefix}help", value="Affiche ce message.", inline=True)
+        embed.add_field(name=f"{prefix}ban @membre", value="Banni un utilisateur du serveur.", inline=True)
+        embed.add_field(name=f"{prefix}unban membre#0000", value="DÃ©banni un utilisateur du serveur.", inline=True)
+        embed.add_field(name=f"{prefix}kick @membre", value="Exclu un membre du serveur.", inline=True)
+        embed.add_field(name=f"{prefix}mute @membre", value="EmpÃªche un membre de parler.", inline=True)
+        embed.add_field(name=f"{prefix}timeout @membre t", value="timeout un membre (t = temps en heure).", inline=True)
+        embed.add_field(name=f"{prefix}clear nb", value="Supprime un certain nombre de message (nb = nombres de message à clear, 10 de base).", inline=True)
+        embed.add_field(name=f"{prefix}courgette @membre", value="Courgette quelqu'un.", inline=True)
+        embed.add_field(name=f"{prefix}catalogue personnage", value="Obtenir la fiche d'un personnage important.", inline=True)
+        embed.add_field(name=f"{prefix}topvote", value="Donne la liste des meilleurs voteurs !", inline=True)
+        embed.add_field(name=f"{prefix}vote (@membre)", value="Donne son nombre de vote.", inline=True)
         await destination.send(embed=embed)
+
 client.help_command = NewHelpName()
 
 client.run(token)

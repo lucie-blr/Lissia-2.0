@@ -10,8 +10,11 @@ class Mute(commands.Cog):
     @commands.command()
     async def timeout(self, ctx, member : discord.Member, hours : int, *, reason = None):
         
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         if member == None:
-            await ctx.reply("Vous devez mentionner un utilisateur à bannir.")
+            await ctx.reply("Vous devez mentionner un utilisateur à timeout.")
             return
         
         time = datetime.timedelta(hours=hours)
@@ -25,7 +28,7 @@ class Mute(commands.Cog):
             data = json.load(f)
             log = data["log"]
         serv = self.bot.get_channel(int(log))
-        embed = discord.Embed(title="Timeout", color=discord.Color.from_rgb(197,197,197))
+        embed = discord.Embed(title="Timeout", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         embed.add_field(name="Modérateur", value=f"{author.mention}", inline=True)
         embed.add_field(name="Membre", value=f"{member}", inline=True)
         embed.add_field(name="Time", value=f"{time}", inline=True)

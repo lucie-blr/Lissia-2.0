@@ -32,13 +32,16 @@ class Justeprix(commands.Cog):
     @commands.command(aliases=["jp"])
     @commands.cooldown(1,5)
     async def justeprix(self, ctx, prix=None):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         with open ("jp.json", "r") as f:
             data = json.load(f)
             nb = int(data["prix"])
             launched = data["launched"]
         
         if launched == "no":
-            embed = discord.Embed(title="Juste prix", description="Le juste prix n'a pas commencé !", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Juste prix", description="Le juste prix n'a pas commencé !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             await ctx.send(embed=embed)
         
         elif launched == "yes":        
@@ -80,8 +83,11 @@ class Justeprix(commands.Cog):
     
     @justeprix.error
     async def justeprix_error(self, ctx, error):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         if isinstance(error, commands.CommandOnCooldown):
-            embed = discord.Embed(title="Juste prix", description="Vous devez attendre la fin du cooldown.", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Juste prix", description="Vous devez attendre la fin du cooldown.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
     
@@ -97,8 +103,11 @@ class Justeprix(commands.Cog):
         
     @defjp.error
     async def defjp_error(self, ctx, error):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         if isinstance(error, commands.MissingPermissions):
-            embed = discord.Embed(title="Juste prix", description="Vous n'avez pas la permission.", color=discord.Color.from_rgb(197,197,197))
+            embed = discord.Embed(title="Juste prix", description="Vous n'avez pas la permission.", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.set_footer(text="Bot by LoliChann", icon_url=f"https://i.pinimg.com/564x/d5/d6/ff/d5d6ff7f3a344085dbffc4a9a34f538e.jpg")
             await ctx.send(embed=embed)
     

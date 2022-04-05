@@ -32,7 +32,10 @@ class Autorole(commands.Cog):
         if reason == None:
             await ctx.send("Vous devez donner le nom d'un serveur.")  
         elif reason == "FRIENDS":
-            embed = discord.Embed(title="Reaction Role", description="Si vous souhaitez accéder à certains channels communautaires, il vous faut réagir avec la réaction qui va avec le channel !", color=discord.Color.from_rgb(197,197,197))
+            with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
+            embed = discord.Embed(title="Reaction Role", description="Si vous souhaitez accéder à certains channels communautaires, il vous faut réagir avec la réaction qui va avec le channel !", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.add_field(name="💻 → Informatique", value="Pour les passionnés d'informatique et de jeu vidéo !", inline=False)
             embed.add_field(name="👺 → Fan du Japon", value="Si vous voulez discuter de manga, de culture japonaise, et autre, c'est ici !", inline=False)
             embed.add_field(name="🎵 → Musique", value="Même ici il y a des passionnés de musique, et vous pouvez en discuter pleinement !", inline=False)

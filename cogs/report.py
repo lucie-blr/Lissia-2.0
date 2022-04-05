@@ -28,11 +28,15 @@ class Report(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def reportlist(self, ctx):
+        with open (f"data.json", "r") as t:
+                data2 = json.load(t)
+                color = data2["color"]
         with open (f"./report.json", "r") as f:
+            
             data = json.load(f)
             register = data["register"]
         
-        embed = discord.Embed(title="Report list", description="Liste de tous les reports", color=discord.Color.from_rgb(197,197,197))
+        embed = discord.Embed(title="Report list", description="Liste de tous les reports", color=discord.Color.from_rgb(color[0], color[1], color[2]))
         classement = 1
 
         for userl in register:
