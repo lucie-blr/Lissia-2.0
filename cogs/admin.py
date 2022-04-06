@@ -42,26 +42,27 @@ class Admin(commands.Cog):
     
     @commands.slash_command(guild_ids = servlist, name = "setup", description = "command for setup the bot")
     async def setup(self, ctx):
-        with open (f"./data.json", "r") as f:
-            data = json.load(f)
-            servlist = data["servlist"]
-        if ctx.guild.id in servlist:
-            await ctx.respond("Le bot n'a pas besoin d'être setup.", ephemeral=True)
-        elif ctx.guild.id not in servlist:
-            os.mkdir(f'{ctx.guild.id}')
-            text = {
-                "log":""
-            }
-            with open(f"./{ctx.guild.id}/data.json","w") as data:
-                json.dump(text,data)
-            data.close
-            with open(f"./{ctx.guild.id}/{ctx.guild.name}","w") as data:
-                json.dump(text,data)
-            await ctx.respond("Bot setup")           
-    
+        
+        os.mkdir(f'{ctx.guild.id}')
+        text = {
+            "log":"",
+            "confess":{}
+        }
+        with open(f"./{ctx.guild.id}/data.json","w") as data:
+            json.dump(text,data)
+        data.close
+        with open(f"./{ctx.guild.id}/{ctx.guild.name}","w") as data:
+            json.dump(text,data)
+        await ctx.respond("Bot setup")           
+
     @commands.command()
     async def serverid(self, ctx):
         await ctx.respond(f"{ctx.guild.id}")
+        
+    @commands.command()
+    async def leaveserver(self,ctx):
+        to_leave = self.bot.get_guild(ctx.guild.id)
+        await to_leave.leave()
 
 def setup(bot):
     bot.add_cog(Admin(bot))

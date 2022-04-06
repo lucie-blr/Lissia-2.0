@@ -22,6 +22,7 @@ async def on_ready():
     
     for guild in client.guilds:
         glist.append(guild.id)
+        print(guild.name)
     
     data["servlist"] = glist
         
@@ -33,6 +34,7 @@ async def on_ready():
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
+        
 
 @client.slash_command(guild_ids = servlist, name = "load", description = "command to load others command")   
 @commands.has_permissions(ban_members=True)
@@ -90,6 +92,9 @@ async def reload(ctx, extension):
         client.load_extension(f'cogs.{extension}')
         await ctx.respond(f'{extension} command reloaded.', ephemeral=True)
         print(f'{ctx.author} used reload')
+
+
+    
 
 #message automatique TICKET
 @client.event
@@ -170,7 +175,15 @@ async def help(ctx):
     embed.add_field(name=f"{prefix}clear nb", value="Supprime un certain nombre de message (nb = nombres de message à clear, 10 de base).", inline=True)
     embed.add_field(name=f"{prefix}courgette @membre", value="Courgette quelqu'un.", inline=True)
     embed.add_field(name=f"{prefix}catalogue personnage", value="Obtenir la fiche d'un personnage important.", inline=True)
+    embed.add_field(name=f"{prefix}catalogue_add", value="Ajouter un personnage dans le catalogue.", inline=True)
+    embed.add_field(name=f"{prefix}catalogue_delete", value="Supprimer un personnage du catalogue.", inline=True)
+    embed.add_field(name=f"{prefix}confess confession", value="Permet de se confesser anonymement.", inline=True)
+    embed.add_field(name=f"{prefix}foundconfess messageid", value="Permet de savoir qui a envoyé une confession.", inline=True)
+    
     await ctx.respond(embed=embed, ephemeral=True)
 
+
+
+    
 
 client.run(token)

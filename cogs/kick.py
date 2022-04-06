@@ -13,8 +13,7 @@ class Kick(commands.Cog):
         servlist = data2["servlist"]
 
 
-    @commands.slash_command(guild_ids = servlist, name = "kick", description = "command to kick people")
-    @commands.has_permissions(manage_roles=True, ban_members=True)
+    @commands.command()
     @commands.bot_has_permissions(manage_roles=True, ban_members=True)
     async def kick(self, ctx, member : discord.Member, *, reason=None):
         with open (f"data.json", "r") as t:
