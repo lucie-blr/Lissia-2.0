@@ -63,7 +63,7 @@ class Verif(commands.Cog):
                     await ctx.send(embed=embed)
     
     @commands.slash_command(guild_ids = servlist, name = "verif", description = "command to pass step of verification")
-    @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
+    @commands.has_permissions(ban_members=True)
     async def verif(self, ctx, back = "yes"):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)
@@ -119,7 +119,7 @@ class Verif(commands.Cog):
                 return          
                 
     @commands.slash_command(guild_ids = servlist, name = "veriflist", description = "command to check verification step of tickets")
-    @commands.has_role('∵🚔∴ Staffiens ∵🚔∴')
+    @commands.has_permissions(ban_members=True)
     async def veriflist(self, ctx):
         with open (f"data.json", "r") as t:
                 data2 = json.load(t)

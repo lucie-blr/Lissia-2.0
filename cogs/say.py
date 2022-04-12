@@ -35,6 +35,7 @@ class Say(commands.Cog):
             embed.set_author(name="Log")
             
             await serv.send(embed=embed)
+            await ctx.respond("Message envoyée !", ephemeral=True)
         print(f'{ctx.author} used say')
     @commands.command()
     async def test(self, ctx):

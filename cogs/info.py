@@ -1,27 +1,30 @@
 import discord
 from discord.ext import commands
 import json
+import os
 
 class DropDownMenu(discord.ui.View):
-        @discord.ui.select(placeholder="Placeholder", min_values=1, max_values=1, options=[
+        @discord.ui.select(placeholder="Choisissez ce que vous voulez", min_values=1, max_values=1, options=[
             discord.SelectOption(label="test", description="desc", emoji="🚽"),
-            discord.SelectOption(label="scenario", description="Porject ATALANTE", emoji="☢️")])
+            discord.SelectOption(label="scenario", description="Project ATALANTE", emoji="☢️")])
         
         async def callback(self, select, interaction: discord.Interaction):
             
-            with open (f"./{interaction.guild.id}/data.json", "r") as t:
-                data = json.load(t)
-                info = data["info"]
+            
             with open (f"data.json", "r") as t:
                 data2 = json.load(t)
                 color = data2["color"]
             
+            catalogue = []
+            for filename in os.listdir(f'./{interaction.guild.id}'):
+                if filename.endswith('.json'):
+                    catalogue.append(f'{filename[:-5]}')
             
-            choosen = info[f"{select.values[0]}"]
-            
-            name = choosen["nom"]
-            lore = choosen["lore"]
-            image = choosen["image"]
+            with open (f"./{interaction.guild.id}/info/{select.values[0]}.json", "r") as t:
+                choosen = json.load(t)
+                name = choosen["nom"]
+                lore = choosen["lore"]
+                image = choosen["image"]
             
             embed = discord.Embed(title=f"{name}", description=f"{lore}", color=discord.Color.from_rgb(color[0], color[1], color[2]))
             embed.set_image(url=f"{image}")
